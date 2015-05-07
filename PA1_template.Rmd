@@ -7,7 +7,7 @@ output:
 
 ```{r echo=FALSE}
 library(knitr)
-opts_chunk$set(echo=TRUE)
+opts_chunk$set(echo=TRUE, fig.path='./figure/')
 setwd("C:/Users/Axel Schwanke/Documents/GitHub/RepData_PeerAssessment1")
 ```
 

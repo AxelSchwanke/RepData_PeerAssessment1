@@ -77,7 +77,7 @@ hist(total_steps_per_day, breaks=20, xlab="Total number of steps per day", ylab=
      main="Total number of steps taken per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![](./figure/unnamed-chunk-5-1.png) 
 
 
 #### The mean and median number of steps taken per day
@@ -113,7 +113,7 @@ plot(intervals, avg_steps_per_interval, type="l", xlab="Interval", ylab="Mean nu
      main="Average daily activity")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
+![](./figure/unnamed-chunk-8-1.png) 
 
 #### Most active interval
 
@@ -160,7 +160,7 @@ hist(total_steps_per_dayNew, breaks=20, xlab="Total number of steps per day", yl
      main="Total number of steps taken per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+![](./figure/unnamed-chunk-12-1.png) 
 ```
 
 #### The mean and median number of steps taken per day
@@ -205,7 +205,7 @@ plot(intervals, weekday_mean, type="l", xlab="Interval", ylab="Avg. number of st
 plot(intervals, weekend_mean, type="l", xlab="Interval", ylab="Avg. number of steps", main="weekend days")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
+![](./figure/unnamed-chunk-14-1.png) 
 
 ```r
 par(mfrow=c(1,1))
