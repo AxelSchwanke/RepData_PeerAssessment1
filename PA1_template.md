@@ -73,8 +73,8 @@ At 8 days no steps were recorded (NA values).
 #### Histogram of the total number of steps taken each day
 
 ```r
-hist(total_steps_per_day, breaks=20, xlab="Total number of steps per day", ylab="Percentage",
-     main="Total number of steps taken per day")
+hist(total_steps_per_day, breaks=20, xlab="Total number of steps per day", 
+     ylab="Percentage", main="Total number of steps taken per day")
 ```
 
 ![](./figure/unnamed-chunk-5-1.png) 
@@ -109,8 +109,8 @@ The following figure shows the time-series plot of the 5-minute interval (x-axis
 and the average number of steps taken, averaged across all days (y-axis).
 
 ```r
-plot(intervals, avg_steps_per_interval, type="l", xlab="Interval", ylab="Mean number of steps",
-     main="Average daily activity")
+plot(intervals, avg_steps_per_interval, type="l", lwd=2,
+     xlab="Interval", ylab="Mean number of steps", main="Average daily activity")
 ```
 
 ![](./figure/unnamed-chunk-8-1.png) 
@@ -145,7 +145,8 @@ for (i in 1:nrow(data)) {
     # if column steps contains NA
     if (is.na(data$steps[i])) {
         # replace NA with the mean of all non-NA values of the same interval
-        dataNew$steps[i] <- mean(data$steps[data$interval == data$interval[i]], na.rm=TRUE)
+        dataNew$steps[i] <- mean(data$steps[data$interval == data$interval[i]],
+                                 na.rm=TRUE)
     }
 }
 ```
@@ -156,8 +157,8 @@ for (i in 1:nrow(data)) {
 ```r
 total_steps_per_dayNew <- tapply(dataNew$steps, dataNew$date, sum)
 
-hist(total_steps_per_dayNew, breaks=20, xlab="Total number of steps per day", ylab="Percentage",
-     main="Total number of steps taken per day")
+hist(total_steps_per_dayNew, breaks=20, xlab="Total number of steps per day", 
+     ylab="Percentage", main="Total number of steps taken per day")
 ```
 
 ![](./figure/unnamed-chunk-12-1.png) 
@@ -182,7 +183,7 @@ When imputing missing values ... ???
 We first need to calculate whether a specific data is on a weekday or on a weekend.
 
 ```r
-# set local time 
+# set local time - otherwise getting German Samstag, Sonntag
 Sys.setlocale("LC_TIME", "English")
 ```
 
@@ -197,12 +198,17 @@ dataNew$weekend <- FALSE
 dataNew$weekend <- (wd == "Saturday" | wd == "Sunday")
 dataNew$weekend <- as.factor(dataNew$weekend)
 
-weekend_mean <- tapply(dataNew$steps[dataNew$weekend==TRUE], dataNew$interval[dataNew$weekend==TRUE], mean)
-weekday_mean <- tapply(dataNew$steps[dataNew$weekend==FALSE], dataNew$interval[dataNew$weekend==FALSE], mean)
+weekend_mean <- tapply(dataNew$steps[dataNew$weekend==TRUE], 
+                       dataNew$interval[dataNew$weekend==TRUE], mean)
+weekday_mean <- tapply(dataNew$steps[dataNew$weekend==FALSE], 
+                       dataNew$interval[dataNew$weekend==FALSE], mean)
 
+max_steps <- ceiling(max(weekday_mean,weekend_mean))
 par(mfrow=c(2,1))
-plot(intervals, weekday_mean, type="l", xlab="Interval", ylab="Avg. number of steps", main="weekday days")
-plot(intervals, weekend_mean, type="l", xlab="Interval", ylab="Avg. number of steps", main="weekend days")
+plot(intervals, weekday_mean, type="l", lwd=2, ylim=c(0,max_steps),
+     xlab="Interval", ylab="Avg. number of steps", main="weekdays")
+plot(intervals, weekend_mean, type="l", lwd=2, ylim=c(0,max_steps),
+     xlab="Interval", ylab="Avg. number of steps", main="weekend days")
 ```
 
 ![](./figure/unnamed-chunk-14-1.png) 
@@ -211,9 +217,19 @@ plot(intervals, weekend_mean, type="l", xlab="Interval", ylab="Avg. number of st
 par(mfrow=c(1,1))
 ```
 
-As one can cleary recognize, on weekdays the most active time is in the morning 
-from about 5:30 o'clock to 10:00 o'clock.
-At the weekend the active time starts later, but is more spread out from about 
-8:00 o'clock in the morning to 20:00 o'clock in the evening.
+As one can clearly recognize, that on weekdays the most active time is in the 
+morning between about 5:30 o'clock and 10:00 o'clock.
+At weekends the active time starts later, but is more spread out between 
+8:00 o'clock in the morning and 20:00 o'clock in the evening.
+
+
+```r
+weekday_sum <- sum(weekday_mean)
+weekend_sum <- sum(weekend_mean)
+```
+
+One can also see that the mean sum of steps taken at weekends with 
+12202 is substantially higher than 
+at weekdays with 10256 .
 
 
