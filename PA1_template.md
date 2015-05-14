@@ -86,8 +86,8 @@ hist(total_steps_per_day, breaks=20, xlab="Total number of steps per day",
 mean_steps_per_day <- mean(total_steps_per_day, na.rm=TRUE)
 median_steps_per_day <- median(total_steps_per_day, na.rm=TRUE)
 ```
-The mean is 10766.19 
-and the median is 10765.
+The mean number of steps taken per day is 10766.19 
+and the median number of steps taken per day is 10765.
 
 The mean and median have about the same value. 
 The distribution is fairly symmetric and not skewed.
@@ -106,7 +106,8 @@ intervals <- sort(unique(data$interval))
 #### Time-series plot 
 
 The following figure shows the time-series plot of the 5-minute interval (x-axis) 
-and the average number of steps taken, averaged across all days (y-axis).
+and the average number of steps taken within the 5-minute interval, 
+averaged across all days (y-axis).
 
 ```r
 plot(intervals, avg_steps_per_interval, type="l", lwd=2,
@@ -134,7 +135,8 @@ sumNA <- sum(is.na(data$steps))
 ```
 The total number of missing values is 2304.
 
-A common approach is to fill missing values with the average of non-missing values of that interval.
+A common approach is used to fill missing values with the average of 
+non-missing values of that interval.
 
 
 ```r
@@ -151,14 +153,14 @@ for (i in 1:nrow(data)) {
 }
 ```
 
-#### Histogram of the total number of steps taken each day
+#### Histogram of the total number of steps taken each day after imputing missing values
 
 
 ```r
 total_steps_per_dayNew <- tapply(dataNew$steps, dataNew$date, sum)
 
 hist(total_steps_per_dayNew, breaks=20, xlab="Total number of steps per day", 
-     ylab="Percentage", main="Total number of steps taken per day")
+     ylab="Percentage", main="Total number of steps taken per day (imputing missing values")
 ```
 
 ![](./figure/unnamed-chunk-12-1.png) 
@@ -170,12 +172,11 @@ hist(total_steps_per_dayNew, breaks=20, xlab="Total number of steps per day",
 mean_steps_per_dayNew <- mean(total_steps_per_dayNew)
 median_steps_per_dayNew <- median(total_steps_per_dayNew)
 ```
-The mean is 10766.19 
-and the median is 10766.19.
+The mean number of steps taken per day is 10766.19 
+and the median number of steps taken per day is 10766.19.
 
 Mean and median are the same. 
 The mean is the same as without the imputed values, but the median has changed.
-When imputing missing values ... ???
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -206,9 +207,9 @@ weekday_mean <- tapply(dataNew$steps[dataNew$weekend==FALSE],
 max_steps <- ceiling(max(weekday_mean,weekend_mean))
 par(mfrow=c(2,1))
 plot(intervals, weekday_mean, type="l", lwd=2, ylim=c(0,max_steps),
-     xlab="Interval", ylab="Avg. number of steps", main="weekdays")
+     xlab="Interval", ylab="Avg. number of steps", main="Average daily activity on weekdays")
 plot(intervals, weekend_mean, type="l", lwd=2, ylim=c(0,max_steps),
-     xlab="Interval", ylab="Avg. number of steps", main="weekend days")
+     xlab="Interval", ylab="Avg. number of steps", main="Average daily activity on weekend days")
 ```
 
 ![](./figure/unnamed-chunk-14-1.png) 
